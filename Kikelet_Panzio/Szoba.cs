@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Media.Media3D;
+using System.Windows;
+using System.Xml.Linq;
 
 namespace Kikelet_Panzio
 {
@@ -23,12 +29,9 @@ namespace Kikelet_Panzio
         public int Ferohely { get => ferohely; set => ferohely = value; }
         public int Ar { get => ar; set => ar = value; }
 
-        public Szoba(string sor)
+        public override string ToString()
         {
-            string[] bontas = sor.Split(';');
-            Szobaszam = int.Parse(bontas[0]);
-            Ferohely = int.Parse(bontas[1]);
-            Ar = int.Parse(bontas[2]);
+            return $"Szoba szám: {Szobaszam}, Férőhely: {Ferohely}, Ár: {Ar} Ft";
         }
     }
 }

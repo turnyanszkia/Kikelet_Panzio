@@ -21,36 +21,47 @@ namespace Kikelet_Panzio
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Szoba> szobak = new List<Szoba> ();
         public MainWindow()
         {
             InitializeComponent();
-            CbxFerohey.Items.Clear();
-            CbxFerohey.Items.Add("2 férőhely");
-            CbxFerohey.Items.Add("3 férőhely");
-            CbxFerohey.Items.Add("4 férőhely");
 
-            CbxFerohey.SelectedIndex = 0;
-            LoadFromFile("szobak.txt"); 
+            LoadSavedBookings();
         }
 
-        private void LoadFromFile(string fileName)
+        private void BtnFoglalas_Click(object sender, RoutedEventArgs e)
         {
-            string[] sorok = File.ReadAllLines(fileName);
-            for (int i = 1; i < sorok.Length; i++)
+            string text1 = TbxKeresztnev.Text;
+            string text2 = TbxVezeteknev.Text;
+            string date = DprSzuletes.SelectedDate.HasValue ? DprSzuletes.SelectedDate.Value.ToString("yyyy-MM-dd") : "Nincs dátum kiválasztva";
+
+            string filePath = "adatokMentes.txt";
+
+            using (StreamWriter writer = new StreamWriter(filePath))
             {
-                szobak.Add(new Szoba(sorok[i]));
+                writer.WriteLine($"Vezetéknév:{text1}");
+                writer.WriteLine($"Keresztnév:{text2}");
+                writer.WriteLine($"Születési dátum:{date}");
+            }
+
+            Foglalas foglaloAblak = new Foglalas();
+            foglaloAblak.Show();
+        }
+        private void LoadSavedBookings()
+        {
+            string filePath = "adatokMentese.txt";
+            if (File.Exists(filePath))
+            {
+                var savedBookings = File.ReadAllLines(filePath);
+                CbxSavedBookings.ItemsSource = savedBookings;
             }
         }
-
-        private void CbxFerohey_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void CbxSavedBookings_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            
-        }
-
-        private void BtnMentes_Click(object sender, RoutedEventArgs e)
-        {
-            
+            if (CbxSavedBookings.SelectedItem != null)
+            {
+                string selectedBooking = CbxSavedBookings.SelectedItem.ToString();
+                MessageBox.Show(selectedBooking, "Mentett Foglalás", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
     }
 }

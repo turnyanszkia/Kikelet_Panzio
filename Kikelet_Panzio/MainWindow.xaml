@@ -12,14 +12,16 @@
         </Style>
     </Window.Resources>
     <StackPanel>
-        <Label Content="Keresztnév:"/>
-        <TextBox/>
-        <Label Content="Vezetéknév"/>
-        <TextBox/>
+        <Label Content="Keresztnév:" Margin="5"/>
+        <TextBox x:Name="TbxKeresztnev" Margin="5"/>
+        <Label Content="Vezetéknév" Margin="5"/>
+        <TextBox x:Name="TbxVezeteknev" Margin="5"/>
         <Label Content="Születési dátum"/>
-        <DatePicker/>
+        <DatePicker x:Name="DprSzuletes" Margin="5"/>
         <CheckBox x:Name="CbxVip" Content="V.I.P ügyfél" Margin="5"/>
-        <Button x:Name="BtnFoglalas" Content="Foglalás" Width="120"/>
+        <ComboBox x:Name="CbxSavedBookings" Width="150" HorizontalAlignment="Left" Margin="5" SelectionChanged="CbxSavedBookings_SelectionChanged"/>
+
+        <Button x:Name="BtnFoglalas" Content="Tovább a foglalásra" Width="120" Click="BtnFoglalas_Click"/>
     </StackPanel>
 
 </Window>
