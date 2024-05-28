@@ -21,11 +21,13 @@ namespace Kikelet_Panzio
     /// </summary>
     public partial class MainWindow : Window
     {
+        private decimal originalPrice = 1000m;
+
+        private BookingManager bookingManager;
         public MainWindow()
         {
             InitializeComponent();
-
-            LoadSavedBookings();
+            bookingManager = new BookingManager();
         }
 
         private void BtnFoglalas_Click(object sender, RoutedEventArgs e)
@@ -45,23 +47,66 @@ namespace Kikelet_Panzio
 
             Foglalas foglaloAblak = new Foglalas();
             foglaloAblak.Show();
-        }
-        private void LoadSavedBookings()
-        {
-            string filePath = "adatokMentese.txt";
-            if (File.Exists(filePath))
+
+            if (CbxVip.IsChecked == true)
             {
-                var savedBookings = File.ReadAllLines(filePath);
-                CbxSavedBookings.ItemsSource = savedBookings;
+                decimal discount = originalPrice * 0.03m;
+                decimal discountedPrice = originalPrice - discount;
+
+                MessageBox.Show($"Kedvezményes ár: {discountedPrice:C}", "Kedvezmény", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                MessageBox.Show($"Eredeti ár: {originalPrice:C}", "Ár", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-        private void CbxSavedBookings_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+
+        private void BtnFoglalas2_Click(object sender, RoutedEventArgs e)
         {
-            if (CbxSavedBookings.SelectedItem != null)
+            if (decimal.TryParse("1000", out decimal originalPrice)) 
             {
-                string selectedBooking = CbxSavedBookings.SelectedItem.ToString();
-                MessageBox.Show(selectedBooking, "Mentett Foglalás", MessageBoxButton.OK, MessageBoxImage.Information);
+                Guest guest = new Guest
+                {
+                    FirstName = TbxKeresztnev.Text,
+                    LastName = TbxVezeteknev.Text,
+                    BirthDate = DprSzuletes.SelectedDate ?? DateTime.MinValue,
+                    IsVip = CbxVip.IsChecked ?? false,
+                    TotalSpent = 0 
+                };
+
+                decimal amountPaid = originalPrice;
+
+                if (guest.IsVip)
+                {
+                    amountPaid -= originalPrice * 0.03m;
+                }
+
+                Booking booking = new Booking
+                {
+                    Guest = guest,
+                    RoomNumber = 1, 
+                    CheckInDate = DateTime.Now, 
+                    CheckOutDate = DateTime.Now.AddDays(1), 
+                    AmountPaid = amountPaid
+                };
+
+                guest.TotalSpent += amountPaid;
+
+                //bookingManager.AddBooking(booking);
+
+                MessageBox.Show($"Foglalás mentve! Fizetett összeg: {amountPaid:C}", "Foglalás", MessageBoxButton.OK, MessageBoxImage.Information);
             }
+        }
+
+        private void BtnShowStatistics_Click(object sender, RoutedEventArgs e)
+        {
+            Statisztika statsWindow = new Statisztika(bookingManager);
+            statsWindow.Show();
+        }
+
+        private void CbxSavedBookings2_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            // Eseménykezelő logika, ha szükséges
         }
     }
 }
