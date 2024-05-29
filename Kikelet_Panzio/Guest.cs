@@ -4,6 +4,7 @@ namespace Kikelet_Panzio
 {
     public class Guest
     {
+        public string Id { get; set; }
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -13,14 +14,17 @@ namespace Kikelet_Panzio
         public bool IsVip { get; set; }
 
         public decimal TotalSpent { get; set; }
+        public string Email { get; set; }
 
-        public Guest(string firstName, string lastName, DateTime birthDate, bool isVip)
+        public Guest(string firstName, string lastName, DateTime birthDate, bool isVip, string email)
         {
+            Id = firstName + lastName + new DateTime();
             FirstName = firstName;
             LastName = lastName;
             BirthDate = birthDate;
             IsVip = isVip;
             TotalSpent = 0;
+            Email = email;
         }
 
         public Guest() { }

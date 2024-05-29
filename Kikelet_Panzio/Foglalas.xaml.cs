@@ -20,9 +20,14 @@ namespace Kikelet_Panzio
     /// </summary>
     public partial class Foglalas : Window
     {
-        public Foglalas()
+        private BookingManager BookingManager;
+        private Guest Guest;
+        public Foglalas(BookingManager bookingManager,Guest guest)
         {
             InitializeComponent();
+            BookingManager = bookingManager;
+            Guest = guest;
+
             var ferohelyek = new HashSet<int>();
             foreach (var szoba in szobak)
             {
@@ -72,6 +77,28 @@ namespace Kikelet_Panzio
                         break;
                     }
                 }
+                
+                    decimal amountPaid = kivalasztottSzoba.Ar;
+
+                    if (Guest.IsVip)
+                    {
+                        amountPaid -= kivalasztottSzoba.Ar * 0.03m;
+                    }
+
+                    Booking booking = new Booking
+                    {
+                        Guest = Guest,
+                        RoomNumber = 1,
+                        CheckInDate = DateTime.Now,
+                        CheckOutDate = DateTime.Now.AddDays(1),
+                        AmountPaid = amountPaid
+                    };
+
+                    Guest.TotalSpent += amountPaid;
+
+                    BookingManager.AddBooking(booking);
+
+                    MessageBox.Show($"Foglalás mentve! Fizetett összeg: {amountPaid:C}", "Foglalás", MessageBoxButton.OK, MessageBoxImage.Information);
 
                 if (kivalasztottSzoba != null)
                 {

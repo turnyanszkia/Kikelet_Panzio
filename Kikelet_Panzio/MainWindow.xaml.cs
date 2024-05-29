@@ -45,57 +45,29 @@ namespace Kikelet_Panzio
                 writer.WriteLine($"Születési dátum:{date}");
             }
 
-            Foglalas foglaloAblak = new Foglalas();
+            Guest guest = new Guest
+            {
+                FirstName = TbxKeresztnev.Text,
+                LastName = TbxVezeteknev.Text,
+                BirthDate = DprSzuletes.SelectedDate ?? DateTime.MinValue,
+                IsVip = CbxVip.IsChecked ?? false,
+                TotalSpent = 0
+            };
+
+            Foglalas foglaloAblak = new Foglalas(bookingManager,guest);
             foglaloAblak.Show();
 
-            if (CbxVip.IsChecked == true)
-            {
-                decimal discount = originalPrice * 0.03m;
-                decimal discountedPrice = originalPrice - discount;
+            //if (CbxVip.IsChecked == true)
+            //{
+            //    decimal discount = originalPrice * 0.03m;
+            //    decimal discountedPrice = originalPrice - discount;
 
-                MessageBox.Show($"Kedvezményes ár: {discountedPrice:C}", "Kedvezmény", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-            else
-            {
-                MessageBox.Show($"Eredeti ár: {originalPrice:C}", "Ár", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
-        private void BtnFoglalas2_Click(object sender, RoutedEventArgs e)
-        {
-            if (decimal.TryParse("1000", out decimal originalPrice)) 
-            {
-                Guest guest = new Guest
-                {
-                    FirstName = TbxKeresztnev.Text,
-                    LastName = TbxVezeteknev.Text,
-                    BirthDate = DprSzuletes.SelectedDate ?? DateTime.MinValue,
-                    IsVip = CbxVip.IsChecked ?? false,
-                    TotalSpent = 0 
-                };
-
-                decimal amountPaid = originalPrice;
-
-                if (guest.IsVip)
-                {
-                    amountPaid -= originalPrice * 0.03m;
-                }
-
-                Booking booking = new Booking
-                {
-                    Guest = guest,
-                    RoomNumber = 1, 
-                    CheckInDate = DateTime.Now, 
-                    CheckOutDate = DateTime.Now.AddDays(1), 
-                    AmountPaid = amountPaid
-                };
-
-                guest.TotalSpent += amountPaid;
-
-                //bookingManager.AddBooking(booking);
-
-                MessageBox.Show($"Foglalás mentve! Fizetett összeg: {amountPaid:C}", "Foglalás", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            //    MessageBox.Show($"Kedvezményes ár: {discountedPrice:C}", "Kedvezmény", MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
+            //else
+            //{
+            //    MessageBox.Show($"Eredeti ár: {originalPrice:C}", "Ár", MessageBoxButton.OK, MessageBoxImage.Information);
+            //}
         }
 
         private void BtnShowStatistics_Click(object sender, RoutedEventArgs e)
@@ -107,6 +79,11 @@ namespace Kikelet_Panzio
         private void CbxSavedBookings2_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             // Eseménykezelő logika, ha szükséges
+        }
+
+        private void CbxSavedBookings_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Kikelet_Panzio
 {
-    internal class Booking
+    public class Booking
     {
 
         public Guest Guest { get; set; }

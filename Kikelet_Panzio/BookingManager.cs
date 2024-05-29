@@ -6,24 +6,7 @@ namespace Kikelet_Panzio
 {
     public class BookingManager : BookingManagerBase
     {
-        // A foglalások listája
-        private List<Booking> bookings;
-
-        internal int GetMostBookedRoom()
-        {
-            throw new NotImplementedException();
-        }
-
-        internal IEnumerable<object> GetReturningGuests()
-        {
-            throw new NotImplementedException();
-        }
-
-        //// Konstruktor
-        public BookingManager()
-        {
-            bookings = new List<Booking>();
-        }
+       
 
         // Összes bevétel kiszámítása egy adott időszakban
         public decimal GetTotalRevenue(DateTime fromDate, DateTime toDate)
@@ -34,7 +17,7 @@ namespace Kikelet_Panzio
         }
 
         // A legtöbbet kiadott szoba meghatározása
-        public int GetMostBookedRoom2()
+        public int GetMostBookedRoom()
         {
             return bookings
                 .GroupBy(b => b.RoomNumber)
@@ -44,7 +27,7 @@ namespace Kikelet_Panzio
         }
 
         // Visszajáró vendégek listájának előállítása fizetett összeg szerint csökkenő sorrendben
-        public List<Guest> GetReturningGuests2()
+        public List<Guest> GetReturningGuests()
         {
             return bookings
                 .GroupBy(b => b.Guest)

@@ -18,7 +18,7 @@
         <TextBox x:Name="TbxVezeteknev" Margin="5"/>
         <Label Content="Születési dátum"/>
         <DatePicker x:Name="DprSzuletes" Margin="5"/>
-        <CheckBox x:Name="CbxVip" Content="V.I.P ügyfél" Margin="5" Checked="CbxVip_Checked"/>
+        <CheckBox x:Name="CbxVip" Content="V.I.P ügyfél" Margin="5"/>
         <ComboBox x:Name="CbxSavedBookings" Width="150" HorizontalAlignment="Left" Margin="5" SelectionChanged="CbxSavedBookings_SelectionChanged"/>
 
         <Button x:Name="BtnFoglalas" Content="Tovább a foglalásra" Width="120" Click="BtnFoglalas_Click"/>
